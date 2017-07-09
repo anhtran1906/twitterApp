@@ -16,13 +16,12 @@ import {
   TextInput,
   ScrollView,
   RefreshControl,
-  TouchableOpacity,
 } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { getHeaders } from 'react-native-simple-auth/lib/utils/oauth1';
 import { KEY } from './Utils/Constant';
 
-export default class Home extends Component {
+export default class Profile extends Component {
   constructor() {
     super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -32,13 +31,14 @@ export default class Home extends Component {
   }
 
   componentDidMount = () => {
-    this._fectchTimeLineAPI();
+    this._fectchProfileAPI();
   }
-  async _fectchTimeLineAPI (){
+  async _fectchProfileAPI (){
     const info = this.props.navigation.state.params;
+    console.log()
     const { credentials: { oauth_token, oauth_token_secret } } = info;
     const httpMethod = 'GET';
-    const url = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
+    const url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
     const headers = getHeaders(url, {},{}, KEY.consumerKey, KEY.consumerSecret, httpMethod, oauth_token, oauth_token_secret);
 
     const response = await fetch(url, {
@@ -52,33 +52,8 @@ export default class Home extends Component {
     })
   };
 
-  async _updateLikeButton (favorited,id) {
-    console.log(favorited);
-    console.log(id);
-    const info = this.props.navigation.state.params;
-    const { credentials: { oauth_token, oauth_token_secret } } = info;
-    const httpMethod = 'POST';
-    let url ='';
-    if(favorited) {
-      url = `https://api.twitter.com/1.1/favorites/destroy.json?id=${id}`;
-    }
-    else {
-      url = `https://api.twitter.com/1.1/favorites/create.json?id=${id}`;
-    }
-    console.log(url);
-    const headers = getHeaders(url, {id:id},{}, KEY.consumerKey, KEY.consumerSecret, httpMethod, oauth_token, oauth_token_secret);
-    console.log(headers);
-    const response = await fetch(url, {
-      method: httpMethod,
-      headers,
-      data: {id},
-    });
-    const json = await response.json();
-    console.log(json);
-    this._fectchTimeLineAPI();
-  }
-
   renderRow(rowData) {
+    console.log(rowData.user.profile_image_url);
     return (
       <View style={{flexDirection:'row'}}>
         <Image
@@ -86,10 +61,12 @@ export default class Home extends Component {
           source={{uri: rowData.user.profile_image_url_https}}
         />
         <View>
-          <Text style={{fontSize:25}}>
+          <Text
+            style={{fontSize:24}}
+          >
             {rowData.user.name}
           </Text>
-          <Text style={{fontSize:20}}>
+          <Text>
             {rowData.text}
           </Text>
           {
@@ -98,21 +75,18 @@ export default class Home extends Component {
                 if(item.type === 'photo') {
                   return <Image
                   style={{width:100, height:100}}
-                  source={{uri: item.media_url}}
+                  source={{uri: item.media_url_https}}
                   />
                 }
               })
               : null
           }
-          <TouchableOpacity
-            onPress={() => this._updateLikeButton(rowData.favorited,rowData.id_str)}
-          >
-            <Image
-              style={{width: 30, height: 30}}
-              source={rowData.favorited? require('./if_JD-04_2246830.png') : require('./if_jee-04_2239656.png')}
-            />
-
-          </TouchableOpacity>
+          <Text>
+            Followers: {rowData.user.followers_count}
+          </Text>
+          <Text>
+            Friends: {rowData.user.friends_count}
+          </Text>
         </View>
       </View >
     )
