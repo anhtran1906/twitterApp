@@ -21,14 +21,12 @@ import { getHeaders,} from 'react-native-simple-auth/lib/utils/oauth1';
 import {KEY} from './Utils/Constant';
 
 export default class Login extends Component {
-
   constructor(props){
     super(props);
     this.state={
       ready: false,
     }
   }
-
   componentWillMount = () => {
     AsyncStorage.getItem('info')
       .then((info) => {

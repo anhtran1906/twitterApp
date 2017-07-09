@@ -78,13 +78,20 @@ export default class Home extends Component {
     this._fectchTimeLineAPI();
   }
 
+  _onImagePress (user) {
+    console.log(user);
+    //this.props.navigation.navigate('Profile',user)
+  }
+
   renderRow(rowData) {
     return (
       <View style={{flexDirection:'row'}}>
-        <Image
-          style={{width:100, height:100}}
-          source={{uri: rowData.user.profile_image_url_https}}
-        />
+        <TouchableOpacity onPress={()=> this._onImagePress(rowData.user)}>
+          <Image
+            style={{width:100, height:100}}
+            source={{uri: rowData.user.profile_image_url_https}}
+          />
+        </TouchableOpacity>
         <View>
           <Text style={{fontSize:25}}>
             {rowData.user.name}
