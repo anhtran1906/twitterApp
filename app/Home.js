@@ -85,7 +85,7 @@ export default class Home extends Component {
 
   renderRow(rowData) {
     return (
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row',borderBottom:1}}>
         <TouchableOpacity onPress={()=> this._onImagePress(rowData.user)}>
           <Image
             style={{width:100, height:100}}
@@ -111,15 +111,28 @@ export default class Home extends Component {
               })
               : null
           }
-          <TouchableOpacity
-            onPress={() => this._updateLikeButton(rowData.favorited,rowData.id_str)}
-          >
-            <Image
-              style={{width: 30, height: 30}}
-              source={rowData.favorited? require('./if_JD-04_2246830.png') : require('./if_jee-04_2239656.png')}
-            />
-
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity>
+                <Image
+                  style={{width: 30, height: 30}}
+                  source={require('./if_jee-03_2239659.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  style={{width: 30, height: 30}}
+                  source={require('./if_jee01-35_2184645.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => this._updateLikeButton(rowData.favorited,rowData.id_str)}
+              >
+                <Image
+                  style={{width: 30, height: 30}}
+                  source={rowData.favorited? require('./if_JD-04_2246830.png') : require('./if_jee-04_2239656.png')}
+                />
+              </TouchableOpacity>
+          </View>
         </View>
       </View >
     )

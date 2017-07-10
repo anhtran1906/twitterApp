@@ -55,9 +55,9 @@ export default class Profile extends Component {
   renderRow(rowData) {
     console.log(rowData.user.profile_image_url);
     return (
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'column'}}>
         <Image
-          style={{width:100, height:100}}
+          style={{width:300, height:300}}
           source={{uri: rowData.user.profile_image_url_https}}
         />
         <View>
@@ -85,7 +85,7 @@ export default class Profile extends Component {
             Followers: {rowData.user.followers_count}
           </Text>
           <Text>
-            Friends: {rowData.user.friends_count}
+            Following: {rowData.user.friends_count}
           </Text>
         </View>
       </View >

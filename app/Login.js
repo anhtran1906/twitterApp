@@ -14,11 +14,13 @@ import {
   Button,
   TouchableOpacity,
   AsyncStorage,
+  Image,
 } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { twitter } from 'react-native-simple-auth';
 import { getHeaders,} from 'react-native-simple-auth/lib/utils/oauth1';
 import {KEY} from './Utils/Constant';
+import SplashScreen from './SplashScreen';
 
 export default class Login extends Component {
   constructor(props){
@@ -60,9 +62,12 @@ export default class Login extends Component {
   }
   render() {
     if(!this.state.ready){
-//show loading
-      console.log('ready false')
-      return null;
+      //show loading
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
     }
     return (
       <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>

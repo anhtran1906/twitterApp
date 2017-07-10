@@ -81,7 +81,6 @@ const MainNav = DrawerNavigator(
     <ScrollView>
       <DrawerItems
         {...props}
-
       />
       </ScrollView>,
   contentOptions: {
